@@ -114,7 +114,7 @@ export default function QuestionList({ initialQuestions }: { initialQuestions: a
           </section>
         </>
       ) : (
-        <p>There is no question yet. Should we be the first? 😉</p>
+        <p className="text-sm text-muted-foreground text-center">There is no question yet. Should we be the first? 😉</p>
       )}
     </section>
   );
