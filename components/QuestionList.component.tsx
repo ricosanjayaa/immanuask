@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { toast } from "sonner";
 import { RefreshCcw } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { fetchQuestions } from "@/lib/actions";
 
 import Card from "@/components/Card.component";
