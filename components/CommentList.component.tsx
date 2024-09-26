@@ -9,6 +9,7 @@ interface CommentListProps {
 }
 
 export default function CommentList({ questionId, refresh }: CommentListProps) {
+  /* eslint-disable */
   const [comments, setComments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 

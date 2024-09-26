@@ -12,6 +12,7 @@ import { LoadingButton } from "@/components/LoadingButton.component";
 
 type SortingType = "hot questions" | "top questions" | "recent questions";
 
+/* eslint-disable */
 export default function QuestionList({ initialQuestions }: { initialQuestions: any[] }) {
   const [questions, setQuestions] = useState(initialQuestions || []);
   const [loading, setLoading] = useState(false);

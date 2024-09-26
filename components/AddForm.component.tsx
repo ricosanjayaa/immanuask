@@ -33,7 +33,7 @@ export default function AddForm() {
       await addQuestion(process.env.NEXT_PUBLIC_PASSKEY as string, filter.clean(values.question.replace(/\n/g, " ").replace(/\s+/g, " ").trim().replace(/([.?!])\s*/g, "$1 ")));
       form.reset();
       toast("Woahh! It's a success 😄", { description: "Your question was successfully uploaded, you can view it yourself at the homepage." })
-    } catch (err: unknown) {
+    } catch {
       toast("Oops.. it failed ☹️", { description: "Looks like something was off while uploading your question." })
     } finally {
       setDisabled(false);

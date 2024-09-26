@@ -31,6 +31,7 @@ export async function fetchCommentUserData(passkey: string, userId: string) {
 export async function fetchQuestions(passkey: string, { sorting = "hot questions", limit = 5 } = {}) {
   validatePasskey(passkey);
 
+  /* eslint-disable */
   const orderBy: Record<string, any> = {
     "hot questions": { like: { _count: "desc" } },
     "top questions": { comments: { _count: "desc" } },

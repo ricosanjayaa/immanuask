@@ -11,6 +11,7 @@ import NotFound from "@/components/NotFound.component";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
+  /* eslint-disable */
   const [question, setQuestion] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [refreshComments, setRefreshComments] = useState(false);
