@@ -65,12 +65,6 @@ export default function QuestionList({ initialQuestions }: { initialQuestions: a
     }
   };
 
-  useEffect(() => {
-    if (!initialQuestions || initialQuestions.length === 0) {
-      handleRefresh();
-    }
-  }, [initialQuestions, handleRefresh]);
-
   const handleSortingChange = (newSorting: SortingType) => {
     setSorting(newSorting);
     setLimit(5);
