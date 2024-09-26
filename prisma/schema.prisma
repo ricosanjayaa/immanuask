@@ -16,7 +16,6 @@ datasource db {
 model Question {
   id        String    @id @default(uuid())
   question  String
-  slug      String
   userId    String
   like      Like[]
   comments  Comment[]

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
@@ -13,7 +13,7 @@ const questionTypes = [
     label: "Hot questions",
   },
   {
-    value: "top quesions",
+    value: "top questions",
     label: "Top questions",
   },
   {
@@ -22,32 +22,34 @@ const questionTypes = [
   },
 ];
 
-export default function Filter() {
+type SortingType = "hot questions" | "top questions" | "recent questions";
+
+interface FilterProps {
+  value: string;
+  onChange: (value: SortingType) => void;
+}
+
+export default function Filter({ value, onChange }: FilterProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("hot questions");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {questionTypes.find((type) => type.value === value)?.label}
+        <Button variant="outline" role="combobox" aria-expanded={open} className="w-[200px] justify-between">
+          {questionTypes.find((type) => type.value === value)?.label || "Select type"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-40 p-0">
+      <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Search sorting type..." />
           <CommandList>
             <CommandEmpty>No question type found.</CommandEmpty>
             <CommandGroup>
               {questionTypes.map((type) => (
-                <CommandItem key={type.value} value={type.value} onSelect={(currentValue) => { setValue(currentValue); setOpen(false) }}>
-                  <Check className={cn("mr-2 h-4 w-4", value === type.value ? "opacity-100" : "opacity-0")} /> {type.label}
+                <CommandItem key={type.value} onSelect={() => { onChange(type.value as SortingType); setOpen(false) }}>
+                  <Check className={cn("mr-2 h-4 w-4", value === type.value ? "opacity-100" : "opacity-0")} />
+                  {type.label}
                 </CommandItem>
               ))}
             </CommandGroup>

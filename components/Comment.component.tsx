@@ -1,15 +1,50 @@
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { fetchCommentUserData } from "@/lib/actions";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export default function Comment() {
+interface CommentProps {
+  comment: {
+    id: string;
+    userId: string;
+    comment: string;
+    createdAt: string;
+  };
+}
+
+export default function Comment({ comment }: CommentProps) {
+  const [userData, setUserData] = useState<{ fullName: string; imageUrl: string; username: string | null } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await fetchCommentUserData(process.env.NEXT_PUBLIC_PASSKEY as string, comment.userId);
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [comment.userId]);
+
+  if (loading) return null;
+
   return (
     <div className="flex flex-row gap-4">
       <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarImage src={userData?.imageUrl} alt={`${userData?.username ? userData.username : userData?.fullName}'s avatar`} />
+        <AvatarFallback>{userData?.fullName.charAt(0)}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col gap-2">
-        <p className="text-sm">anonymoususeranjay <span className="text-muted-foreground">2 days ago</span></p>
-        <p className="text-sm tracking-tight">This thing is so shit... not gonna lie</p>
+        <p className="text-sm">
+          {userData?.fullName} <span className="text-muted-foreground">{moment(comment.createdAt).fromNow()}</span>
+        </p>
+        <p className="text-sm tracking-tight">{comment.comment}</p>
       </div>
     </div>
   );
