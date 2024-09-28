@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import { RefreshCcw } from "lucide-react";
 import { useState, useCallback } from "react";
 import { fetchQuestions } from "@/lib/actions";
-import { useMediaQuery } from "react-responsive";
 
 import Card from "@/components/Card.component";
 import { Button } from "@/components/ui/button";
@@ -21,35 +20,22 @@ export default function QuestionList({ initialQuestions }: { initialQuestions: a
   const [limit, setLimit] = useState(5);
   const [hasMoreQuestions, setHasMoreQuestions] = useState(true);
 
-  // Media query for detecting the 'md' breakpoint and above
-  const isMdOrLarger = useMediaQuery({ query: "(min-width: 768px)" });
-
-  const handleRefresh = useCallback(
-    async (sortingOption?: SortingType, newLimit?: number) => {
-      const sortToUse = sortingOption || sorting;
-      const limitToUse = newLimit || limit;
-      try {
-        setLoading(true);
-        const refreshedQuestions = await fetchQuestions(process.env.NEXT_PUBLIC_PASSKEY as string, {
-          sorting: sortToUse,
-          limit: limitToUse,
-        });
-        setQuestions(refreshedQuestions);
-        setHasMoreQuestions(true);
-        toast("Woahh! It's a success 😄", {
-          description: "The question list has been successfully refreshed.",
-        });
-      } catch (error) {
-        console.error("Error refreshing questions:", error);
-        toast("Oops.. it failed ☹️", {
-          description: "Looks like something was off while refreshing the questions, please try again later.",
-        });
-      } finally {
-        setLoading(false);
-      }
-    },
-    [sorting, limit]
-  );
+  const handleRefresh = useCallback(async (sortingOption?: SortingType, newLimit?: number) => {
+    const sortToUse = sortingOption || sorting;
+    const limitToUse = newLimit || limit;
+    try {
+      setLoading(true);
+      const refreshedQuestions = await fetchQuestions(process.env.NEXT_PUBLIC_PASSKEY as string, {  sorting: sortToUse, limit: limitToUse });
+      setQuestions(refreshedQuestions);
+      setHasMoreQuestions(true);
+      toast("Woahh! It's a success 😄", { description: "The question list has been successfully refreshed." });
+    } catch (error) {
+      console.error("Error refreshing questions:", error);
+      toast("Oops.. it failed ☹️", { description: "Looks like something was off while refreshing the questions, please try again later." });
+    } finally {
+      setLoading(false);
+    }
+  }, [sorting, limit]);
 
   const handleMoreQuestions = async () => {
     const newLimit = limit + 5;
@@ -73,9 +59,7 @@ export default function QuestionList({ initialQuestions }: { initialQuestions: a
       }
     } catch (error) {
       console.error("Error loading more questions:", error);
-      toast("Oops.. it failed ☹️", {
-        description: "We couldn't load more questions, please try again later.",
-      });
+      toast("Oops.. it failed ☹️", { description: "We couldn't load more questions, please try again later." });
     } finally {
       setLoading(false);
     }
@@ -94,12 +78,9 @@ export default function QuestionList({ initialQuestions }: { initialQuestions: a
         <p>Sort by</p>
         <div className="flex flex-row w-full justify-between">
           <Filter value={sorting} onChange={handleSortingChange} />
-          {isMdOrLarger && !loading ? (
-            <Button onClick={() => handleRefresh()}>
-              <RefreshCcw className="mr-2 h-4 w-4" /> Refresh
-            </Button>
-          ) : <Button onClick={() => handleRefresh()}><RefreshCcw className="h-4 w-4" /></Button>}
-          {loading && <LoadingButton />}
+          {loading ? <LoadingButton /> : (
+            <Button onClick={() => handleRefresh()}><RefreshCcw className="mrh-4 w-4" /></Button>
+          )}
         </div>
       </div>
 
@@ -110,9 +91,7 @@ export default function QuestionList({ initialQuestions }: { initialQuestions: a
           ))}
           <section className="flex flex-col gap-4 items-center">
             {!hasMoreQuestions ? (
-              <p className="text-base tracking-tight text-muted-foreground">
-                You actually hit the maximum! 👏
-              </p>
+              <p className="text-base tracking-tight text-muted-foreground">You actually hit the maximum! 👏</p>
             ) : (
               <>
                 <p className="text-sm text-muted-foreground">Want to see more?</p>
@@ -120,18 +99,14 @@ export default function QuestionList({ initialQuestions }: { initialQuestions: a
                   <Button onClick={handleMoreQuestions} disabled={loading}>
                     {loading ? <LoadingButton /> : "More questions"}
                   </Button>
-                  <Button variant="secondary" asChild>
-                    <Link href="/add">Add question</Link>
-                  </Button>
+                  <Button variant="secondary" asChild><Link href="/add">Add question</Link></Button>
                 </div>
               </>
             )}
           </section>
         </>
       ) : (
-        <p className="text-sm text-muted-foreground text-center">
-          There is no question yet. Should we be the first? 😉
-        </p>
+        <p className="text-sm text-muted-foreground text-center">There is no question yet. Should we be the first? 😉</p>
       )}
     </section>
   );

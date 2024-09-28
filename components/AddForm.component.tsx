@@ -29,7 +29,8 @@ export default function AddForm() {
     try {
       setDisabled(true);
       const filter = new Filter();
-      filter.addWords("kontol", "anjing", "anj", "anying", "bajingan", "ewe", "ngewe", "ngentot", "asu", "bangsat", "kntl", "mmk", "lanjiau", "lanjiao", "lanciao", "knto", "babi", "brengsek", "jancok", "kampret", "pembunuh", "sialan", "setan", "tolol", "pecundang", "goblok", "bangke", "jembut", "bego", "bodoh", "bodo", "memek", "pepek","pantek", "bejat", "puki", "cibai", "dongo", "cipai", "kuciao", "tai", "kampret", "dongo", "syal", "sial", "peler", "plr", "penis", "vagina", "kampret", "tae", "monyet");     
+      filter.removeWords("suka");
+      filter.addWords("kontol", "anjing", "anj", "anying", "bajingan", "ewe", "ngewe", "ngentot", "asu", "bangsat", "kntl", "mmk", "lanjiau", "lanjiao", "lanciao", "knto", "babi", "brengsek", "jancok", "kampret", "pembunuh", "sialan", "setan", "tolol", "pecundang", "goblok", "bangke", "jembut", "bego", "bodoh", "bodo", "memek", "pepek","pantek", "bejat", "puki", "cibai", "dongo", "cipai", "kuciao", "tai", "kampret", "dongo", "syal", "sial", "peler", "plr", "penis", "vagina", "kampret", "tae", "monyet");
       await addQuestion(process.env.NEXT_PUBLIC_PASSKEY as string, filter.clean(values.question.replace(/\n/g, " ").replace(/\s+/g, " ").trim().replace(/([.?!])\s*/g, "$1 ")));
       form.reset();
       toast("Woahh! It's a success 😄", { description: "Your question was successfully uploaded, you can view it yourself at the homepage." })

@@ -2,6 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addComment } from "@/lib/actions";
 import { useForm } from "react-hook-form";
+import { Filter } from "bad-words";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -32,7 +33,10 @@ export default function CommentForm({ questionId, onCommentAdded }: CommentFormP
   const onSubmit = async (values: z.infer<typeof commentSchema>) => {
     try {
       setDisabled(true);
-      await addComment(process.env.NEXT_PUBLIC_PASSKEY as string, questionId, values.comment);
+      const filter = new Filter();
+      filter.removeWords("suka");
+      filter.addWords("kontol", "anjing", "anj", "anying", "bajingan", "ewe", "ngewe", "ngentot", "asu", "bangsat", "kntl", "mmk", "lanjiau", "lanjiao", "lanciao", "knto", "babi", "brengsek", "jancok", "kampret", "pembunuh", "sialan", "setan", "tolol", "pecundang", "goblok", "bangke", "jembut", "bego", "bodoh", "bodo", "memek", "pepek","pantek", "bejat", "puki", "cibai", "dongo", "cipai", "kuciao", "tai", "kampret", "dongo", "syal", "sial", "peler", "plr", "penis", "vagina", "kampret", "tae", "monyet");
+      await addComment(process.env.NEXT_PUBLIC_PASSKEY as string, questionId, filter.clean(values.comment));
       form.reset();
       toast("Woahh! It's a success 😄", { description: "Your comment was successfully uploaded." });
       onCommentAdded();

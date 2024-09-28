@@ -8,6 +8,7 @@ import CommentForm from "@/components/CommentForm.component";
 import CommentList from "@/components/CommentList.component";
 import Loading from "@/components/Loading.component";
 import NotFound from "@/components/NotFound.component";
+import { DeleteQuestion } from "@/components/DeleteQuestion.component";
 
 export default function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -15,6 +16,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [question, setQuestion] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [refreshComments, setRefreshComments] = useState(false);
+
 
   useEffect(() => {
     const searchQuestion = async () => {
@@ -47,7 +49,10 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <>
       <BackButton />
-      <Card numbered={false} question={question} className="-mt-8" />
+      <div className="flex flex-col gap-4">
+        <Card numbered={false} question={question} className="-mt-8" />
+        <DeleteQuestion questionId={question.id as string} />
+      </div>
       <CommentForm questionId={question.id} onCommentAdded={handleCommentAdded} />
       <CommentList questionId={question.id} refresh={refreshComments} />
     </>

@@ -27,6 +27,12 @@ export default function CommentList({ questionId, refresh }: CommentListProps) {
 
   useEffect(() => {
     fetchAndSetComments();
+
+    const intervalId = setInterval(() => {
+      fetchAndSetComments();
+    }, 60000);
+
+    return () => clearInterval(intervalId);
   }, [questionId, refresh]);
 
   return (

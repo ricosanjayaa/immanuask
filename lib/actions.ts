@@ -114,6 +114,23 @@ export async function addQuestion(passkey: string, question: string) {
   });
 }
 
+export async function deleteQuestion(passkey: string, questionId: string) {
+  validatePasskey(passkey);
+  const { userId } = auth();
+
+  if (!userId) throw new Error("User not authenticated!");
+  const question = await prisma.question.findFirst({ where: { id: questionId } });
+  if (!question) throw new Error("Question doesn't exist!");
+  if (userId !== question.userId) throw new Error("Not owner.");
+
+  try {
+    await prisma.question.delete({ where: { id: questionId } });
+    return true;
+  } catch {
+    throw new Error("Error while deleting.");
+  }
+}
+
 export async function addComment(passkey: string, questionId: string, comment: string) {
   validatePasskey(passkey);
   const { userId } = auth();
