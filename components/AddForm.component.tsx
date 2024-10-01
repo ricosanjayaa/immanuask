@@ -1,6 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addQuestion } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Filter } from "bad-words";
 import { useState } from "react";
@@ -16,6 +17,7 @@ const addSchema = z.object({
 });
 
 export default function AddForm() {
+  const router = useRouter();
   const [disabled, setDisabled] = useState(false);
 
   const form = useForm<z.infer<typeof addSchema>>({
@@ -32,7 +34,7 @@ export default function AddForm() {
       filter.removeWords("suka");
       filter.addWords("kontol", "anjing", "anj", "anying", "bajingan", "ewe", "ngewe", "ngentot", "asu", "bangsat", "kntl", "mmk", "lanjiau", "lanjiao", "lanciao", "knto", "babi", "brengsek", "jancok", "kampret", "pembunuh", "sialan", "setan", "tolol", "pecundang", "goblok", "bangke", "jembut", "bego", "bodoh", "bodo", "memek", "pepek","pantek", "bejat", "puki", "cibai", "dongo", "cipai", "kuciao", "tai", "kampret", "dongo", "syal", "sial", "peler", "plr", "penis", "vagina", "kampret", "tae", "monyet");
       await addQuestion(process.env.NEXT_PUBLIC_PASSKEY as string, filter.clean(values.question.replace(/\n/g, " ").replace(/\s+/g, " ").trim().replace(/([.?!])\s*/g, "$1 ")));
-      form.reset();
+      router.push("/");
       toast("Woahh! It's a success 😄", { description: "Your question was successfully uploaded, you can view it yourself at the homepage." })
     } catch {
       toast("Oops.. it failed ☹️", { description: "Looks like something was off while uploading your question." })
