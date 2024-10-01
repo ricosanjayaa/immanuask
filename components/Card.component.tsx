@@ -53,14 +53,14 @@ export default function Card({ className, numbered = true, question, number }: {
         <h5 className="flex-1">{numbered && `${number}. `}{question.question}</h5>
       </Link>
       <div className="flex flex-row gap-2 justify-between items-baseline">
-        <Link href={`/question/${question.id}`} className="text-sm">
+        <div className="text-sm">
           <span className="text-muted-foreground">
             {moment(question.createdAt).fromNow()} |{" "}
           </span>
-          <span className="font-medium hover:underline underline-offset-2 text-muted-foreground hover:text-foreground">
+          <Link href={`/question/${question.id}`} className="font-medium hover:underline underline-offset-2 text-muted-foreground hover:text-foreground">
             {question.comments.length} {question.comments.length > 1 ? "comments" : "comment"}
-          </span>
-        </Link>
+          </Link>
+        </div>
         <div className={`flex flex-row items-center gap-2 p-2 ${loading ? "cursor-not-allowed" : "cursor-pointer"} ${hasVoted ? "bg-foreground/5 -rotate-6" : "hover:bg-foreground/5 hover:-rotate-6"} rounded-md`} onClick={handleVote}>
           <p className="text-xl -m-2">👍</p>
           <p className="font-medium">{voteCount}</p>

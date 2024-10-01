@@ -10,7 +10,7 @@ export default async function Page() {
   return (
     <>
       <section className="py-4 md:py-8 flex flex-col gap-4 text-center">
-        <h1 className="text-2xl md:text-3xl font-medium tracking-tighter">Your place to question something about Immanuel Vocational High Pontianak.</h1>
+        <h1 className="text-2xl md:text-3xl font-medium tracking-tighter">Your place to question something about Immanuel Vocational High Pontianak</h1>
         <p className="text-lg">
           <TooltipProvider>
             <Tooltip>
