@@ -72,6 +72,11 @@ export async function fetchComments(passkey: string, questionId: string) {
   return await prisma.comment.findMany({ where: { questionId } });
 }
 
+export async function deleteComment(passkey: string, commentId: string) {
+  validatePasskey(passkey);
+  return await prisma.comment.delete({ where: { id: commentId } });
+}
+
 export async function checkIfUserVoted(passkey: string, questionId: string) {
   validatePasskey(passkey);
   const { userId } = auth();

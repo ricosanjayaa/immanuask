@@ -40,7 +40,7 @@ export default function CommentList({ questionId, refresh }: CommentListProps) {
       {loading ? (
         <Loading context="comments" />
       ) : comments.length > 0 ? (
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-8">
           {comments.map((comment) => (
             <Comment key={comment.id} comment={comment} />
           ))}

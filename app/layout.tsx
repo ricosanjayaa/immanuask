@@ -22,7 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn(RecursiveFont.className, "p-8 w-full min-w-[320px] max-w-2xl min-h-screen mx-auto flex flex-col gap-12")}>
+        <body className={cn(RecursiveFont.className, "p-8 w-full min-w-[320px] relative max-w-2xl min-h-screen mx-auto flex flex-col gap-12")}>
           <NavigationBar />
           <section className="flex-1 flex flex-col gap-12">
             {children}
