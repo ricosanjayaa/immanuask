@@ -6,9 +6,10 @@ import Loading from "@/components/Loading.component";
 interface CommentListProps {
   questionId: string;
   refresh: boolean;
+  onCommentDeleted: () => void;
 }
 
-export default function CommentList({ questionId, refresh }: CommentListProps) {
+export default function CommentList({ questionId, refresh, onCommentDeleted }: CommentListProps) {
   /* eslint-disable */
   const [comments, setComments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +43,7 @@ export default function CommentList({ questionId, refresh }: CommentListProps) {
       ) : comments.length > 0 ? (
         <ul className="flex flex-col gap-8">
           {comments.map((comment) => (
-            <Comment key={comment.id} comment={comment} />
+            <Comment key={comment.id} comment={comment} onCommentDeleted={onCommentDeleted} />
           ))}
         </ul>
       ) : (

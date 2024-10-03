@@ -12,9 +12,10 @@ interface CommentProps {
     comment: string;
     createdAt: string;
   };
+  onCommentDeleted: () => void;
 }
 
-export default function Comment({ comment }: CommentProps) {
+export default function Comment({ comment, onCommentDeleted }: CommentProps) {
   const [userData, setUserData] = useState<{ fullName: string; imageUrl: string; username: string | null } | null>(null);
   const [currentUserData, setCurrentUserData] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ export default function Comment({ comment }: CommentProps) {
       <div className="flex flex-col gap-2 w-full">
         <div className="flex flex-row justify-between">
           <p className="text-sm">{userData?.fullName} <span className="text-muted-foreground">{moment(comment.createdAt).fromNow()}</span></p>
-          {currentUserData === comment.userId && <CommentAction id={comment.id} />}
+          {currentUserData === comment.userId && <CommentAction id={comment.id} onCommentDeleted={onCommentDeleted} />}
         </div>
         <p className="text-sm tracking-tight">{comment.comment}</p>
       </div>

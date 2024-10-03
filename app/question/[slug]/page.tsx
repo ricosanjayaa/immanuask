@@ -38,6 +38,10 @@ export default function Page({ params }: { params: { slug: string } }) {
     setRefreshComments((prev) => !prev);
   };
 
+  const handleCommentDeleted = () => {
+    setRefreshComments((prev) => !prev);
+  };
+
   if (loading) {
     return <Loading context="question" />;
   }
@@ -54,7 +58,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         <DeleteQuestion questionId={question.id as string} />
       </div>
       <CommentForm questionId={question.id} onCommentAdded={handleCommentAdded} />
-      <CommentList questionId={question.id} refresh={refreshComments} />
+      <CommentList questionId={question.id} refresh={refreshComments} onCommentDeleted={handleCommentDeleted}  />
     </>
   );
 }
