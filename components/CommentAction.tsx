@@ -1,9 +1,12 @@
+"use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Trash, Loader2 } from "lucide-react";
 import { deleteComment } from "@/lib/actions";
 import { toast } from "sonner";
 
 export default function CommentAction({ id }: { id: string }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -11,6 +14,7 @@ export default function CommentAction({ id }: { id: string }) {
       setLoading(true);
       await deleteComment(process.env.NEXT_PUBLIC_PASSKEY as string, id);
       toast("Woahh! It's a success 😄", { description: "Your comment was successfully deleted." });
+      router.refresh();
     } catch (error) {
       console.error("Error adding comment:", error);
       toast("Oops.. it failed ☹️", { description: "Looks like something was off while deleting your comment." });
